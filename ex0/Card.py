@@ -3,18 +3,23 @@ from enum import Enum
 
 
 class Rarity(Enum):
-    pass
+    COMMON = "Common"
+    UNCOMMON = "Uncommon"
+    RARE = "Rare"
+    LEGENDARY = "Legendary"
 
 
 class Card(ABC):
     def __init__(self, name: str, cost: int, rarity: str) -> None:
-        pass
+        self.name = name
+        self.cost = cost
+        self.rarity = rarity
 
     def play(self, game_state: dict) -> dict:
-        pass
+        return {"card_played": self.name, "mana_used": self.cost}
 
     def get_card_info(self) -> dict:
-        pass
+        return {"name": self.name, "cost": self.cost, "rarity": self.rarity}
 
     def is_playable(self, available_mana: int) -> bool:
-        pass
+        return available_mana >= self.cost
