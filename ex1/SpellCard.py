@@ -18,5 +18,10 @@ class SpellCard(Card):
     def play(self, game_state: dict) -> dict:
         pass
 
+    def get_card_info(self) -> dict:
+        info = super().get_card_info()
+        info.update({"type": "Spell", "effect": self.effect_type})
+        return info
+
     def resolve_effect(self, targets: list) -> dict:
         pass

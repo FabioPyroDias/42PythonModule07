@@ -8,15 +8,15 @@ class CreatureCard(Card):
         self.attack = attack
         self.health = health
 
+    def play(self, game_state: dict) -> dict:
+        info = super().play(game_state)
+        info.update({"effect": "Creature summoned to battlefield"})
+        return info
+
     def get_card_info(self) -> dict:
         info = super().get_card_info()
         info.update({"type": "Creature", "attack": self.attack,
                      "health": self.health})
-        return info
-
-    def play(self, game_state: dict) -> dict:
-        info = super().play(game_state)
-        info.update({"effect": "Creature summoned to battlefield"})
         return info
 
     def attack_target(self, target) -> dict:
