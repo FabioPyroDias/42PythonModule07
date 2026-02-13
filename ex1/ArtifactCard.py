@@ -1,4 +1,4 @@
-from ex0 import Card
+from ex0.Card import Card
 
 
 class ArtifactCard(Card):
@@ -9,7 +9,9 @@ class ArtifactCard(Card):
         self.effect = effect
 
     def play(self, game_state: dict) -> dict:
-        pass
+        info = super().play(game_state)
+        info.update({"effect": self.effect})
+        return info
 
     def get_card_info(self) -> dict:
         info = super().get_card_info()
@@ -18,4 +20,11 @@ class ArtifactCard(Card):
         return info
 
     def activate_ability(self) -> dict:
-        pass
+        if self.durability <= 0:
+            return {"status": None}
+        result = {
+            "effect": self.effect,
+            "durability": self.durability
+        }
+        self.durability -= 1
+        return result

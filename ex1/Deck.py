@@ -1,3 +1,4 @@
+import random
 from ex0 import Card
 
 
@@ -18,7 +19,7 @@ class Deck:
                 self.__cards.remove(card_name)
 
     def shuffle(self) -> None:
-        pass
+        random.shuffle(self.__cards)
 
     def draw_card(self) -> Card:
         if len(self.__cards) == 0:
@@ -46,5 +47,5 @@ class Deck:
         stats["creatures"] =  type_creature
         stats["spells"] = type_spell
         stats["artifacts"] = type_artifact
-        stats["avg_cost"] = cost / len(self.__cards)
+        stats["avg_cost"] = int(cost / len(self.__cards))
         return stats

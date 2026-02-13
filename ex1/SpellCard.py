@@ -1,4 +1,4 @@
-from ex0 import Card
+from ex0.Card import Card
 from enum import Enum
 
 
@@ -16,7 +16,16 @@ class SpellCard(Card):
         self.effect_type = effect_type
 
     def play(self, game_state: dict) -> dict:
-        pass
+        info = super().play(None)
+        if self.effect_type == EffectType.DAMAGE.value:
+            info.update({"effect": f"Deal {self.cost} damage to target"})
+        elif self.effect_type == EffectType.HEAL.value:
+            info.update({"effect": f"Heal {self.cost} health to target"})
+        elif self.effect_type == EffectType.BUFF.value:
+            info.update({"effect": f"Buff {self.cost} damage to target"})
+        elif self.effect_type == EffectType.DEBUFF.value:
+            info.update({"effect": f"Debuff {self.cost} damage to target"})
+        return info
 
     def get_card_info(self) -> dict:
         info = super().get_card_info()
@@ -24,4 +33,5 @@ class SpellCard(Card):
         return info
 
     def resolve_effect(self, targets: list) -> dict:
-        pass
+        return {"targets": targets, "effect": self.effect_type,
+                "value": self.cost}
