@@ -3,8 +3,9 @@ from ex0.Card import Card
 
 class CreatureCard(Card):
     def __init__(self, name: str, cost: int, rarity: str,
-                 attack: int, health: int) -> None:
+                 type: str, attack: int, health: int) -> None:
         super().__init__(name, cost, rarity)
+        self.type = type
         self.attack = attack
         self.health = health
 
@@ -15,7 +16,7 @@ class CreatureCard(Card):
 
     def get_card_info(self) -> dict:
         info = super().get_card_info()
-        info.update({"type": "Creature", "attack": self.attack,
+        info.update({"type": self.type, "attack": self.attack,
                      "health": self.health})
         return info
 

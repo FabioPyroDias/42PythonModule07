@@ -3,8 +3,9 @@ from ex0.Card import Card
 
 class ArtifactCard(Card):
     def __init__(self, name: str, cost: int, rarity: str,
-                 durability: int, effect: str) -> None:
+                 type: str, durability: int, effect: str) -> None:
         super().__init__(name, cost, rarity)
+        self.type = type
         self.durability = durability
         self.effect = effect
 
@@ -15,7 +16,7 @@ class ArtifactCard(Card):
 
     def get_card_info(self) -> dict:
         info = super().get_card_info()
-        info.update({"type": "Artifact", "durability": self.durability,
+        info.update({"type": self.type, "durability": self.durability,
                     "effect": self.effect})
         return info
 
