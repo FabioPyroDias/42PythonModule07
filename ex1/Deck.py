@@ -44,7 +44,7 @@ class Deck:
                 type_spell += 1
             else:
                 type_artifact += 1
-        stats["creatures"] =  type_creature
+        stats["creatures"] = type_creature
         stats["spells"] = type_spell
         stats["artifacts"] = type_artifact
         stats["avg_cost"] = int(cost / len(self.__cards))

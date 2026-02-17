@@ -9,7 +9,8 @@ if __name__ == "__main__":
     print("Testing Abstract Base Class Design:")
     print()
     print("CreatureCard Info:")
-    fire_dragon = CreatureCard("Fire Dragon", 5, Rarity.LEGENDARY.value, "Creature", 7, 5)
+    fire_dragon = CreatureCard("Fire Dragon", 5, Rarity.LEGENDARY.value,
+                               "Creature", 7, 5)
     print(fire_dragon.get_card_info())
     print()
     print("Playing Fire Dragon with 6 mana available:")

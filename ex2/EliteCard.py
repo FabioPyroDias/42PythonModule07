@@ -44,10 +44,12 @@ class EliteCard(Card, Combatable, Magical):
                 "damage_blocked": self.damage, "still_alive": alive}
 
     def get_combat_stats(self) -> dict:
-        pass
+        return {"attack": self.damage, "defense": self.defense,
+                "health": self.health, "combat_type": self.combat_type}
 
     def cast_spell(self, spell_name: str, targets: list) -> dict:
         target_names = [target.name for target in targets]
+        self.mana -= 4
         return {"caster": self.name, "spell": spell_name,
                 "targets": target_names, "mana_used": 4}
 
@@ -56,4 +58,4 @@ class EliteCard(Card, Combatable, Magical):
         return {"channeled": amount, "total_mana": self.mana}
 
     def get_magic_stats(self) -> dict:
-        pass
+        return {"mana": self.mana}
