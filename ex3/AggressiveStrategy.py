@@ -17,9 +17,11 @@ class AgressiveStrategy(GameStrategy):
         if len(creatures) > 0:
             current_creature = 0
             while current_creature < len(creatures) - 1:
-                if creatures[current_creature].cost > creatures[current_creature + 1].cost:
+                if (creatures[current_creature].cost >
+                        creatures[current_creature + 1].cost):
                     temp = creatures[current_creature]
-                    creatures[current_creature] = creatures[current_creature + 1]
+                    creatures[current_creature] = (
+                        creatures[current_creature + 1])
                     creatures[current_creature + 1] = temp
                     current_creature -= 1
                     if current_creature < 0:
@@ -30,18 +32,22 @@ class AgressiveStrategy(GameStrategy):
             cards_to_be_removed = []
             while current_creature < len(creatures):
                 if creatures[current_creature].is_playable(available_mana):
-                    creatures[current_creature].play()
-                    available_mana -= creatures[current_creature].get_card_info()["cost"]
+                    available_mana -= (
+                        creatures[current_creature].get_card_info()["cost"])
                     cards_to_be_removed.append(current_creature)
-                    damage += creatures[current_creature].get_card_info()["attack"]
+                    damage += (
+                        creatures[current_creature].get_card_info()["attack"])
                 current_creature += 1
             removed_card_index = len(cards_to_be_removed) - 1
             while removed_card_index >= 0:
-                cards_played.append(creatures.pop(cards_to_be_removed[removed_card_index]).name)
+                cards_played.append(
+                    creatures.pop(
+                        cards_to_be_removed[removed_card_index]).name)
                 removed_card_index -= 1
         spells = []
         for card in hand:
-            if isinstance(card, SpellCard) and card.get_card_info()["effect"] == "damage":
+            if (isinstance(card, SpellCard) and
+                    card.get_card_info()["effect"] == "damage"):
                 spells.append(card)
         if len(spells) > 0:
             current_spell = 0
@@ -60,19 +66,56 @@ class AgressiveStrategy(GameStrategy):
         spells_played = []
         while current_spell < len(spells):
             if spells[current_spell].is_playable(available_mana):
-                spells[current_spell].play()
                 available_mana -= spells[current_spell].get_card_info()["cost"]
                 spells_to_be_removed.append(current_spell)
                 damage += spells[current_spell].get_card_info()["cost"]
             current_spell += 1
-        removed_card_index = len(spells) - 1
+        removed_card_index = len(spells_to_be_removed) - 1
         while removed_card_index >= 0:
-            spells_played.append(spells.pop(spells_to_be_removed[removed_card_index]).name)
+            spells_played.append(
+                spells.pop(spells_to_be_removed[removed_card_index]).name)
             removed_card_index -= 1
         current_spell = 0
         while current_spell < len(spells_played):
-            cards_played.append(spells_played[current_spell].name)
+            cards_played.append(spells_played[current_spell])
             current_spell += 1
+        artifacts = []
+        for card in hand:
+            if isinstance(card, ArtifactCard):
+                artifacts.append(card)
+        if len(artifacts) > 0:
+            current_artifacts = 0
+            while current_artifacts < len(artifacts) - 1:
+                if (artifacts[current_artifacts].cost >
+                        artifacts[current_artifacts + 1].cost):
+                    temp = artifacts[current_artifacts]
+                    artifacts[current_artifacts] = (
+                        artifacts[current_artifacts + 1])
+                    artifacts[current_artifacts + 1] = temp
+                    current_artifacts -= 1
+                    if current_artifacts < 0:
+                        current_artifacts = 0
+                else:
+                    current_artifacts += 1
+        current_artifacts = 0
+        artifacts_to_be_removed = []
+        artifacts_played = []
+        while current_artifacts < len(artifacts):
+            if artifacts[current_artifacts].is_playable(available_mana):
+                available_mana -= (
+                    artifacts[current_artifacts].get_card_info()["cost"])
+                artifacts_to_be_removed.append(current_artifacts)
+                damage += artifacts[current_artifacts].get_card_info()["cost"]
+            current_artifacts += 1
+        removed_card_index = len(artifacts_to_be_removed) - 1
+        while removed_card_index >= 0:
+            artifacts_played.append(artifacts.pop(
+                artifacts_to_be_removed[removed_card_index]).name)
+            removed_card_index -= 1
+        current_artifacts = 0
+        while current_artifacts < len(artifacts_played):
+            cards_played.append(artifacts_played[current_artifacts])
+            current_artifacts += 1
         return {
             "cards_played": cards_played,
             "mana_used": max_mana - available_mana,

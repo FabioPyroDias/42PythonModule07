@@ -21,8 +21,8 @@ class FantasyCardFactory(CardFactory):
                          "Spell", EffectType.DAMAGE.value)
         }
         self.__artifacts = {
-            "mana": ("Mana Crystal", 2, Rarity.COMMON.value,
-                     "Artifact", 5, "Permanent: +1 mana per turn")
+            "mana_ring": ("Mana Crystal", 2, Rarity.COMMON.value,
+                          "Artifact", 5, "Permanent: +1 mana per turn")
         }
 
     def create_creature(self, name_or_power: str | int | None = None) -> Card:
