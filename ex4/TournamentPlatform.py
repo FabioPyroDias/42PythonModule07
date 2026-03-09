@@ -7,12 +7,22 @@ class TournamentPlatform():
         self.matches_played = 0
 
     def register_card(self, card: TournamentCard) -> str:
+        if card is None:
+            raise ValueError("Register Card: card cannot be None")
         self.cards.update({card.get_card_info()["card_id"]: card})
 
     def create_match(self, card1_id: str, card2_id: str) -> dict:
+        if not card1_id:
+            raise ValueError("Create Match: card1_id cannot be None")
+        if not card2_id:
+            raise ValueError("Create Match: card2_id cannot be None")
         self.matches_played += 1
-        card1 = self.cards[card1_id]
-        card2 = self.cards[card2_id]
+        card1 = self.cards.get(card1_id, None)
+        if not card1:
+            raise ValueError("Create Match: card1 was not found")
+        card2 = self.cards.get(card2_id, None)
+        if not card1:
+            raise ValueError("Create Match: card2 was not found")
         card1_attack_info = card1.attack(card2)["damage_dealt"]
         card2_attack_info = card2.attack(card1)["damage_dealt"]
         if card1_attack_info >= card2_attack_info:

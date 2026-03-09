@@ -8,17 +8,28 @@ class TournamentCard(Card, Combatable, Rankable):
                  card_id: str, damage: int, defense: int, health: int,
                  base_rating: int):
         super().__init__(name, cost, rarity)
+        if not card_id:
+            raise ValueError("Card ID cannot be None")
         self.card_id = card_id
+        if damage < 0:
+            raise ValueError("Damage cannot be negative")
         self.damage = damage
+        if defense < 0:
+            raise ValueError("Defense cannot be negative")
         self.defense = defense
+        if health <= 0:
+            raise ValueError("Health must be positive (> 0)")
         self.health = health
+        if base_rating <= 0:
+            raise ValueError("Base Rating must be positive (> 0)")
         self.base_rating = base_rating
         self.rating = base_rating
         self.wins = 0
         self.losses = 0
 
     def play(self, game_state: dict) -> dict:
-        return super().play(game_state)
+        return {"card_played": self.name, "mana_used": self.cost,
+                "effect": "Tournament unit summoned to battlefield"}
 
     def get_card_info(self) -> dict:
         info = super().get_card_info()
@@ -30,6 +41,10 @@ class TournamentCard(Card, Combatable, Rankable):
         return super().is_playable(available_mana)
 
     def attack(self, target) -> dict:
+        if target is None:
+            raise ValueError("Attack: target cannot be None")
+        if not isinstance(target, TournamentCard):
+            raise ValueError("Attack: target needs to be a TournamentCard")
         damage_blocked = target.defend(self.damage)["damage_blocked"]
         final_damage = self.damage - damage_blocked
         if final_damage < 0:
@@ -39,6 +54,8 @@ class TournamentCard(Card, Combatable, Rankable):
                 "combat_resolved": target.health <= 0}
 
     def defend(self, incoming_damage: int) -> dict:
+        if incoming_damage < 0:
+            raise ValueError("Defend: incoming_damage cannot be negative")
         damage_taken = self.defense - incoming_damage
         if damage_taken < 0:
             self.health += damage_taken
@@ -59,9 +76,13 @@ class TournamentCard(Card, Combatable, Rankable):
         return self.rating
 
     def update_wins(self, wins: int) -> None:
+        if wins < 0:
+            raise ValueError("Update Wins: wins cannot be negative")
         self.wins = wins
 
     def update_losses(self, losses: int) -> None:
+        if losses < 0:
+            raise ValueError("Update Losses: losses cannot be negative")
         self.losses = losses
 
     def get_rank_info(self) -> dict:
