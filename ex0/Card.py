@@ -1,4 +1,4 @@
-from abc import ABC
+from abc import ABC, abstractmethod
 from enum import Enum
 
 
@@ -15,8 +15,9 @@ class Card(ABC):
         self.cost = cost
         self.rarity = rarity
 
+    @abstractmethod
     def play(self, game_state: dict) -> dict:
-        return {"card_played": self.name, "mana_used": self.cost}
+        pass
 
     def get_card_info(self) -> dict:
         return {"name": self.name, "cost": self.cost, "rarity": self.rarity}
