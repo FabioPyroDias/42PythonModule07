@@ -1,5 +1,5 @@
 import random
-from ex0 import Card
+from ex0.Card import Card
 
 
 class Deck:
@@ -8,7 +8,9 @@ class Deck:
 
     def add_card(self, card: Card) -> None:
         if card is None:
-            return
+            raise ValueError("Card cannot be None")
+        if not isinstance(card, Card):
+            raise ValueError("add_card only accepts Cards")
         self.__cards.append(card)
 
     def remove_card(self, card_name: str) -> None:
@@ -16,14 +18,15 @@ class Deck:
             return
         for card in self.__cards:
             if card.get_card_info()["name"] == card_name:
-                self.__cards.remove(card_name)
+                self.__cards.remove(card)
+                return
 
     def shuffle(self) -> None:
         random.shuffle(self.__cards)
 
     def draw_card(self) -> Card:
         if len(self.__cards) == 0:
-            return None
+            raise ValueError("No cards left to draw")
         return self.__cards.pop(0)
 
     def get_deck_stats(self) -> dict:
@@ -42,10 +45,10 @@ class Deck:
                 type_creature += 1
             elif card_info["type"] == "Spell":
                 type_spell += 1
-            else:
+            elif card_info["type"] == "Artifact":
                 type_artifact += 1
         stats["creatures"] = type_creature
         stats["spells"] = type_spell
         stats["artifacts"] = type_artifact
-        stats["avg_cost"] = int(cost / len(self.__cards))
+        stats["avg_cost"] = round(cost / len(self.__cards), 1)
         return stats
