@@ -116,6 +116,10 @@ class AgressiveStrategy(GameStrategy):
         while current_artifacts < len(artifacts_played):
             cards_played.append(artifacts_played[current_artifacts])
             current_artifacts += 1
+        if len(battlefield) > 0:
+            for card in battlefield:
+                if isinstance(card, CreatureCard):
+                    damage += card.attack
         return {
             "cards_played": cards_played,
             "mana_used": max_mana - available_mana,
