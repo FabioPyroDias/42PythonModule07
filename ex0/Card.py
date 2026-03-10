@@ -27,7 +27,6 @@ class Card(ABC):
                              "or Legendary")
         self.rarity = rarity
 
-    @abstractmethod
     def play(self, game_state: dict) -> dict:
         pass
 
